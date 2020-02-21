@@ -14,9 +14,14 @@ class Adder:
         text = self.source.get()
         pos = self.source.find_insert_pos()
         newline = self.source.get_newline()
-        breakpoint()
         new_text = text[:pos] + newline + to_insert + newline + text[pos:]
         return new_text
+
+
+def fix_include(s):
+    if not s.startswith("#include"):
+        s = "#include " + s
+    return s
 
 
 class CSource:
