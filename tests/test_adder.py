@@ -17,6 +17,8 @@ def test_c_adder():
     )
     adder = Adder(buffer, lang="c")
     actual = adder.add_import("<bar.h>")
+    # Note the added blank line after bar.h,
+    # it's a bug from the original implem  ¯\_(ツ)_/¯
     expected = textwrap.dedent(
         """\
         #ifndef _FOO_H
