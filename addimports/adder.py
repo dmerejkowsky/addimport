@@ -11,9 +11,9 @@ class Adder:
 
     def add_import(self, fix):
         to_insert = f"#include {fix}"
-        text = self.source.get()
+        text = self.source.text
         pos = self.source.find_insert_pos()
-        newline = self.source.get_newline()
+        newline = self.source.newline
         new_text = text[:pos] + newline + to_insert + newline + text[pos:]
         return new_text
 
@@ -29,15 +29,9 @@ class CSource:
         self.text = text
         self.newline = self.discover_newline()
 
-        self.memo_has_ifdef = self.has(IFDEF)
-        self.memo_has_ifndef = self.has(IFNDEF)
-        self.memo_has_include = self.has(INCL)
-
-    def get(self):
-        return self.text
-
-    def get_newline(self):
-        return self.newline
+        self._has_ifdef = self.has(IFDEF)
+        self._has_ifndef = self.has(IFNDEF)
+        self._has_include = self.has(INCL)
 
     def has(self, text):
         return text in self.text
@@ -46,16 +40,16 @@ class CSource:
         try:
             return self.text.index(text)
         except ValueError:
-            return -1
+            return None
 
     def has_ifdef(self):
-        return self.memo_has_ifdef
+        return self._has_ifdef
 
     def has_ifndef(self):
-        return self.memo_has_ifndef
+        return self._has_ifndef
 
     def has_include(self):
-        return self.memo_has_include
+        return self._has_include
 
     def first_ifdef(self):
         return self.first(IFDEF)
@@ -65,12 +59,6 @@ class CSource:
 
     def first_include(self):
         return self.first(INCL)
-
-    def next_include(self, pos):
-        try:
-            return self.text[pos + 1 :].index(INCL)
-        except ValueError:
-            return -1
 
     def first_include_after_ifdef(self):
         return self.first_include_after_word(IFDEF)
@@ -89,7 +77,7 @@ class CSource:
 
     def has_ifdef_before(self, pos):
         found = self.first_ifdef()
-        return (found != -1) and (found < pos)
+        return found and (found < pos)
 
     def first_include_after_word(self, word):
         if not self.has_include() and not self.has(word):
