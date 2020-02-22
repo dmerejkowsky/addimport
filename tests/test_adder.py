@@ -34,7 +34,6 @@ def test_c_adder():
     assert actual == expected
 
 
-@pytest.mark.skip("not ready")
 def test_python_adder():
     """ Can add a missing import to a Python file """
 
@@ -50,19 +49,21 @@ def test_python_adder():
         """
     )
     adder = Adder(buffer, lang="python")
-    buffer = adder.add_import("os")
-    assert buffer == textwrap.dedent(
+    actual = adder.add_import("os")
+    expected = textwrap.dedent(
         """\
         #!/bin/env python3
 
-        import os
         import sys
+        import os
+
 
         def main():
             pass
 
         """
-    ), buffer
+    )
+    assert repr(actual) == repr(expected)
 
 
 def test1():

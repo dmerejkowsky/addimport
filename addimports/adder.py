@@ -7,10 +7,17 @@ UNIX_EOL = "\n"
 
 class Adder:
     def __init__(self, buffer, *, lang):
-        self.source = CSource(buffer)
+        self.lang = lang
+        if lang in ("c", "cpp"):
+            self.source = CSource(buffer)
+        else:
+            self.source = PythonSource(buffer)
 
     def add_import(self, fix):
-        to_insert = f"#include {fix}"
+        if self.lang in ("c", "cpp"):
+            to_insert = f"#include {fix}"
+        else:
+            to_insert = f"import {fix}"
         text = self.source.text
         pos = self.source.find_insert_pos()
         newline = self.source.newline
@@ -22,6 +29,38 @@ def fix_include(s):
     if not s.startswith("#include"):
         s = "#include " + s
     return s
+
+
+class PythonSource:
+    def __init__(self, text):
+        self.text = text
+        self.newline = self.discover_newline()
+
+    def first(self, text):
+        try:
+            return self.text.index(text)
+        except ValueError:
+            return None
+
+    def discover_newline(self):
+        if "\r\n" in self.text:
+            return "\r\n"
+        else:
+            return "\n"
+
+    def end_of_line(self, pos):
+        tail = self.the_rest(pos + 1)
+        npos = tail.first(self.newline)
+        if npos:
+            return pos + 1 + npos
+        return 0
+
+    def find_insert_pos(self):
+        pos = self.first("import")
+        return self.end_of_line(pos)
+
+    def the_rest(self, pos):
+        return CSource(self.text[pos:])
 
 
 class CSource:
@@ -94,7 +133,7 @@ class CSource:
     def end_of_line(self, pos):
         tail = self.the_rest(pos + 1)
         npos = tail.first(self.newline)
-        if npos != -1:
+        if npos:
             return pos + 1 + npos
         return 0
 
