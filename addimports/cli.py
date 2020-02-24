@@ -1,7 +1,13 @@
 import os
+import sys
 import click
 
 from .adder import Adder
+
+
+def message(s):
+    with open("/tmp/addimports.log", "a") as f:
+        f.write(s + "\n")
 
 
 class File(click.ParamType):
@@ -17,8 +23,8 @@ class File(click.ParamType):
 @click.option("--lang", required=True, type=click.Choice(["c", "cpp", "go", "python"]))
 @click.argument("file", type=File())
 @click.argument("text")
-def main(lang, text, file):
-    click.echo(f"Adding {text} to {lang} {file}")
+def main(*, file, text, lang):
+    message(f"Adding {text} to {lang} {file}")
     with open(file, "r") as f:
         source = f.read()
     adder = Adder(source, lang=lang)
