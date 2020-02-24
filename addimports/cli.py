@@ -1,6 +1,8 @@
 import os
 import click
 
+from .adder import Adder
+
 
 class File(click.ParamType):
     name = "file"
@@ -17,3 +19,9 @@ class File(click.ParamType):
 @click.argument("text")
 def main(lang, text, file):
     click.echo(f"Adding {text} to {lang} {file}")
+    with open(file, "r") as f:
+        source = f.read()
+    adder = Adder(source, lang=lang)
+    res = adder.add_import(text)
+    with open(file, "w") as f:
+        f.write(res)
