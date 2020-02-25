@@ -1,7 +1,7 @@
 import textwrap
 import pytest
 
-from addimports.adder import Adder
+from addimport.adder import Adder
 
 
 def test_c_adder():
