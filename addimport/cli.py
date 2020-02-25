@@ -4,6 +4,15 @@ import sys
 
 from .adder import Adder
 
+# Note:
+# we must import the modules so that the __init_subclass__ hook
+# is called
+
+from .source import Source
+from .c import CSource, CPPSource
+from .javascript import JavaScriptSource
+from .python import PythonSource
+
 
 def add_import(file, lang, text, *, secondary_text):
     if file == "-":
@@ -22,7 +31,8 @@ def add_import(file, lang, text, *, secondary_text):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--lang", required=True, choices=["c", "cpp", "go", "python"])
+    known_langs = Source.registry.keys()
+    parser.add_argument("--lang", required=True, choices=known_langs)
     parser.add_argument("file")
     parser.add_argument("primary_text")
     parser.add_argument("secondary_text", nargs="?")

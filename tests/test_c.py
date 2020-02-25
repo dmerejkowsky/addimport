@@ -1,4 +1,4 @@
-from addimport.c_source import CSource
+from addimport.c import CSource
 
 
 def test1():

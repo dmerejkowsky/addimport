@@ -1,10 +1,9 @@
 from .source import Source
 
 
-class PythonSource(Source):
+class PythonSource(Source, lang="python"):
     def __init__(self, text):
-        self.text = text
-        self.newline = self.discover_newline()
+        super().__init__(text)
 
     def find_insert_pos(self):
         pos = self.first("import")

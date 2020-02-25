@@ -5,9 +5,15 @@ UNIX_EOL = "\n"
 
 
 class Source(metaclass=abc.ABCMeta):
+    registry = {}
+
     def __init__(self, text):
         self.text = text
         self.newline = self.discover_newline()
+
+    def __init_subclass__(cls, lang, **kwargs):
+        super().__init_subclass__(**kwargs)
+        Source.registry[lang] = cls
 
     def discover_newline(self):
         if DOS_EOL in self.text:
@@ -49,3 +55,13 @@ class Source(metaclass=abc.ABCMeta):
         newline = self.newline
         res = text[:pos] + newline + fixed + newline + text[pos:]
         return res
+
+
+# Note:
+# must be *after* the Source class to avoid circular imports
+# we must import the modules so that the __init_subclass__ hook
+# is called
+
+from .c import CSource, CPPSource
+from .javascript import JavaScriptSource
+from .python import PythonSource

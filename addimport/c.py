@@ -5,7 +5,7 @@ IFNDEF = "#ifndef"
 INCL = "#include"
 
 
-class CSource(Source):
+class CSource(Source, lang="c"):
     def __init__(self, text):
         super().__init__(text)
 
@@ -96,3 +96,7 @@ class CSource(Source):
             return 0
 
         return self.end_of_line(pos)
+
+
+class CPPSource(CSource, lang="cpp"):
+    pass
