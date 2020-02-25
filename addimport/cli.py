@@ -5,11 +5,6 @@ import sys
 from .adder import Adder
 
 
-def message(s):
-    with open("/tmp/addimport.log", "a") as f:
-        f.write(s + "\n")
-
-
 def add_import(file, lang, text, *, secondary_text):
     if file == "-":
         source = sys.stdin.read()
@@ -26,7 +21,6 @@ def add_import(file, lang, text, *, secondary_text):
 
 
 def main():
-    message(f"sys.argv: {sys.argv}")
     parser = argparse.ArgumentParser()
     parser.add_argument("--lang", required=True, choices=["c", "cpp", "go", "python"])
     parser.add_argument("file")
