@@ -1,7 +1,7 @@
 addimport
 =========
 
-Add missing importsf to source files. 
+Add missing imports to source files. 
 
 Inspiration taken from `addinclude <https://addinclude.roboticoverlords.org/>`_., but with more languages.
 
