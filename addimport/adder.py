@@ -10,5 +10,5 @@ class Adder:
         else:
             self.source = PythonSource(source_text)
 
-    def add_import(self, import_text):
-        return self.source.add_import(import_text)
+    def add_import(self, primary_text, *, secondary_text=None):
+        return self.source.add_import(primary_text, secondary_text=secondary_text)

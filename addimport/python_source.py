@@ -10,12 +10,11 @@ class PythonSource(Source):
         pos = self.first("import")
         return self.end_of_line(pos)
 
-    def fix_import_text(self, s):
-        if "import" in s:
-            return s
-        n_words = len(s.split())
-        if n_words == 2:
-            x, y = s.split()
-            return f"from {y} import {y}"
+    def fix_import_text(self, primary_text, *, secondary_text=None):
+        if "import" in primary_text:
+            return primary_text
+
+        if secondary_text:
+            return f"from {primary_text} import {secondary_text}"
         else:
-            return f"import {s}"
+            return f"import {primary_text}"

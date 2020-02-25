@@ -16,7 +16,7 @@ def test_c_adder():
         """
     )
     adder = Adder(buffer, lang="c")
-    actual = adder.add_import("<bar.h>")
+    actual = adder.add_import("<bar.h>", secondary_text=None)
     # Note the added blank line after bar.h,
     # it's a bug from the original implem  ¯\_(ツ)_/¯
     expected = textwrap.dedent(
@@ -49,7 +49,7 @@ def test_python_adder():
         """
     )
     adder = Adder(buffer, lang="python")
-    actual = adder.add_import("os")
+    actual = adder.add_import("os", secondary_text=None)
     expected = textwrap.dedent(
         """\
         #!/bin/env python3

@@ -13,10 +13,11 @@ class CSource(Source):
         self._has_ifndef = self.has(IFNDEF)
         self._has_include = self.has(INCL)
 
-    def fix_import_text(self, s):
-        if not s.startswith("#include"):
-            s = "#include " + s
-        return s
+    def fix_import_text(self, primary_text, *, secondary_text=None):
+        if primary_text.startswith("#include"):
+            return primary_text
+        else:
+            return "#include " + primary_text
 
     def has_ifdef(self):
         return self._has_ifdef

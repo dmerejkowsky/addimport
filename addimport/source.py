@@ -42,8 +42,8 @@ class Source(metaclass=abc.ABCMeta):
     def fix_import_text(self, text):
         pass
 
-    def add_import(self, import_text):
-        fixed = self.fix_import_text(import_text)
+    def add_import(self, primary_text, *, secondary_text=None):
+        fixed = self.fix_import_text(primary_text, secondary_text=secondary_text)
         text = self.text
         pos = self.find_insert_pos()
         newline = self.newline
