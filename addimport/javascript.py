@@ -21,6 +21,6 @@ class JavaScriptSource(Source, lang="javascript"):
 
     def fix_import_text(self, primary_text, *, secondary_text=None):
         if self.use_require:
-            return f"const {primary_text} = require('{secondary_text}')"
+            return f"const {primary_text} = require('{secondary_text}');"
         else:
-            return f"from {primary_text} import {secondary_text}"
+            return f"from {primary_text} import {secondary_text};"

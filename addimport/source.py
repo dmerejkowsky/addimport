@@ -49,10 +49,11 @@ class Source(metaclass=abc.ABCMeta):
         pass
 
     def add_import(self, primary_text, *, secondary_text=None):
-        fixed = self.fix_import_text(primary_text, secondary_text=secondary_text)
         text = self.text
         pos = self.find_insert_pos()
         newline = self.newline
+
+        fixed = self.fix_import_text(primary_text, secondary_text=secondary_text)
         res = text[:pos] + newline + fixed + newline + text[pos:]
         return res
 

@@ -64,3 +64,26 @@ def test_python_adder():
         """
     )
     assert repr(actual) == repr(expected)
+
+
+def test_javascript_adder_requires():
+    """ Can add a missing require() call to a JavaScript file """
+    buffer = textwrap.dedent(
+        """\
+        const foo = require('foo');
+
+        module.exports = baz;
+        """
+    )
+    adder = Adder(buffer, lang="javascript")
+    actual = adder.add_import("bar", secondary_text="bar")
+    expected = textwrap.dedent(
+        """\
+        const foo = require('foo');
+        const bar = require('bar');
+
+
+        module.exports = baz;
+        """
+    )
+    assert repr(actual) == repr(expected)
