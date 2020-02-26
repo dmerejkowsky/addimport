@@ -23,4 +23,4 @@ class JavaScriptSource(Source, lang="javascript"):
         if self.use_require:
             return f"const {primary_text} = require('{secondary_text}');"
         else:
-            return f"from {primary_text} import {secondary_text};"
+            return f"import {{ {primary_text} }} from {secondary_text};"
