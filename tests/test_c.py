@@ -63,7 +63,3 @@ def test_fix_include():
     """ It should add #include if it's missing """
     source = CSource("")
     assert source.fix_import_text('"foo.h"', secondary_text=None) == '#include "foo.h"'
-    assert (
-        source.fix_import_text("#include <bar>", secondary_text=None)
-        == "#include <bar>"
-    )

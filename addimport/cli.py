@@ -1,4 +1,5 @@
 import argparse
+
 import os
 import sys
 
@@ -10,6 +11,7 @@ from .adder import Adder
 
 from .source import Source
 from .c import CSource, CPPSource
+from .go import GoSource
 from .javascript import JavaScriptSource
 from .python import PythonSource
 

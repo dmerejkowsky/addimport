@@ -10,9 +10,6 @@ class PythonSource(Source, lang="python"):
         return self.end_of_line(pos)
 
     def fix_import_text(self, primary_text, *, secondary_text=None):
-        if "import" in primary_text:
-            return primary_text
-
         if secondary_text:
             return f"from {primary_text} import {secondary_text}"
         else:
